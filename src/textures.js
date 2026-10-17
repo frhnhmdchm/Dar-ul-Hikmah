@@ -172,8 +172,13 @@ export function makeMenuTexture(title, items, accent=COLORS.gold){
   return tex;
 }
 
-/** Poster texture for science/art boards. */
-export function makePosterTexture(title, sub, bg, fg, emoji){
+/** Poster texture for science/art boards. p=[title, sub, bg, fg, emoji] */
+export function makePosterTexture(...p){
+  let title, sub, bg, fg, emoji;
+  if (p.length===1 && Array.isArray(p[0])) { [title, sub, bg, fg, emoji] = p[0]; }
+  else { [title, sub, bg, fg, emoji] = p; }
+  title = title || 'EXHIBIT'; sub = sub || '';
+  bg = (bg==null) ? COLORS.red : bg; fg = (fg==null) ? '#f5f1ea' : fg;
   const key=`poster-${title}-${sub}`;
   if(texCache.has(key)) return texCache.get(key);
   const W=300,H=400;
@@ -184,9 +189,9 @@ export function makePosterTexture(title, sub, bg, fg, emoji){
   ctx.fillStyle='#fff'; ctx.textAlign='center';
   if (emoji){ ctx.font='84px serif'; ctx.fillText(emoji, W/2, 120); }
   ctx.font='bold 30px "Trebuchet MS",Arial';
-  wrapText(ctx,title.toUpperCase(),W/2,emoji?180:120,W-40,34);
+  wrapText(ctx,String(title).toUpperCase(),W/2,emoji?180:120,W-40,34);
   ctx.font='16px "Segoe UI",Arial'; ctx.fillStyle=hex(fg);
-  wrapText(ctx.sub.toUpperCase(),W/2,emoji?250:190,W-46,20);
+  wrapText(ctx,String(sub).toUpperCase(),W/2,emoji?250:190,W-46,20);
   ctx.fillStyle='rgba(255,255,255,.5)'; ctx.font='11px Arial';
   ctx.fillText('STUDENT EXHIBIT', W/2, H-24);
   const tex=new THREE.CanvasTexture(cv); tex.colorSpace=THREE.SRGBColorSpace;
