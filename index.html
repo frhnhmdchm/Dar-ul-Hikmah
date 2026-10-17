@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DAR-UL-HIKMAH FAMILY CARNIVAL 2026 — Interactive 3D Carnival</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="scene-canvas"></canvas>
+
+  <!-- Loading overlay -->
+  <div id="loader">
+    <div class="loader-card">
+      <div class="loader-logo">DAR-UL-HIKMAH SCHOOL</div>
+      <div class="loader-title">FAMILY CARNIVAL 2026</div>
+      <div class="loader-sub">KATHORE KALAN &bull; CHAK NO. 303 JB</div>
+      <div class="loader-bar"><div id="loader-fill"></div></div>
+      <div id="loader-status">Preparing the carnival…</div>
+    </div>
+  </div>
+
+  <!-- Top brand bar -->
+  <header id="topbar">
+    <div class="brand">
+      <span class="brand-mark">DH</span>
+      <div class="brand-text">
+        <strong>DAR-UL-HIKMAH FAMILY CARNIVAL 2026</strong>
+        <span>26 DECEMBER 2026 &bull; KATHORE KALAN &bull; LIGHTING MINDS, SHAPING TOMORROW</span>
+      </div>
+    </div>
+    <button id="btn-menu" class="icon-btn" title="Toggle control panel">☰</button>
+  </header>
+
+  <!-- Left control panel -->
+  <aside id="panel" class="open">
+    <div class="panel-scroll">
+
+      <section class="pgroup">
+        <h3>Camera Views</h3>
+        <div class="btn-grid" id="view-buttons">
+          <button data-view="hero">Hero View</button>
+          <button data-view="gate">Entrance Gate</button>
+          <button data-view="gateLow">Gate (Elevated)</button>
+          <button data-view="rides">Ride Zone</button>
+          <button data-view="ferris">Ferris Wheel</button>
+          <button data-view="carousel">Carousel</button>
+          <button data-view="food">Food Street</button>
+          <button data-view="games">Games Street</button>
+          <button data-view="science">Science &amp; Art</button>
+          <button data-view="stage">Main Stage</button>
+          <button data-view="photo">Photo Wall</button>
+          <button data-view="plan">Overhead Site Plan</button>
+          <button data-view="reset">Reset Camera</button>
+        </div>
+      </section>
+
+      <section class="pgroup">
+        <h3>Cinematic Tour</h3>
+        <div class="btn-row">
+          <button id="btn-play" class="primary">▶ Play All</button>
+          <button id="btn-pause">⏸ Pause</button>
+          <button id="btn-restart">⟲ Restart</button>
+        </div>
+        <select id="shot-select" title="Jump to shot">
+          <option value="">— Select shot —</option>
+        </select>
+        <div id="tour-progress"><div id="tour-fill"></div></div>
+      </section>
+
+      <section class="pgroup">
+        <h3>Lighting</h3>
+        <div class="seg" id="light-buttons">
+          <button data-light="day">Daylight</button>
+          <button data-light="golden" class="active">Golden Hour</button>
+          <button data-light="evening">Evening</button>
+        </div>
+      </section>
+
+      <section class="pgroup">
+        <h3>Venue Layout</h3>
+        <div class="seg" id="layout-buttons">
+          <button data-layout="main">Main Venue</button>
+          <button data-layout="expanded" class="active">Expanded Carnival</button>
+        </div>
+        <p class="hint" id="layout-note"></p>
+        <details class="adv">
+          <summary>Venue dimensions (editable)</summary>
+          <label>Main width (m) <input type="number" id="inp-w" min="14" max="40" step="0.5" value="22.491"></label>
+          <label>Main depth (m) <input type="number" id="inp-d" min="14" max="40" step="0.5" value="22.491"></label>
+          <label>Extension width (m) <input type="number" id="inp-ew" min="10" max="40" step="0.5" value="24"></label>
+          <label>Extension depth (m) <input type="number" id="inp-ed" min="10" max="40" step="0.5" value="20"></label>
+          <button id="btn-apply-dims">Apply Dimensions</button>
+          <p class="hint">Provisional footprint ≈ 505.857 m² (22.491 × 22.491 m). Shape is NOT surveyed.</p>
+        </details>
+      </section>
+
+      <section class="pgroup">
+        <h3>Rides (show / hide)</h3>
+        <div id="ride-toggles" class="check-list"></div>
+        <p class="hint">Concepts only — real equipment specifications, footprints and safety clearances must be verified with suppliers and on site.</p>
+      </section>
+
+      <section class="pgroup">
+        <h3>Display</h3>
+        <div class="check-list">
+          <label><input type="checkbox" id="chk-visitors" checked> Visitors</label>
+          <select id="crowd-mode">
+            <option value="empty">Empty venue</option>
+            <option value="light">Lightly populated</option>
+            <option value="lively" selected>Lively promotional crowd</option>
+          </select>
+          <label><input type="checkbox" id="chk-decor" checked> Decorations</label>
+          <label><input type="checkbox" id="chk-labels" checked> Ride labels</label>
+          <label><input type="checkbox" id="chk-measure"> Measurements</label>
+          <label><input type="checkbox" id="chk-rotate" checked> Animate rides</label>
+        </div>
+      </section>
+
+      <section class="pgroup">
+        <h3>Promo Compositions</h3>
+        <div class="btn-grid" id="promo-buttons">
+          <button data-promo="hero16">16:9 Hero</button>
+          <button data-promo="portrait916">9:16 Portrait</button>
+          <button data-promo="foodShow">Food Showcase</button>
+          <button data-promo="rideShow">Ride Showcase</button>
+          <button data-promo="gamesShow">Games Showcase</button>
+          <button data-promo="eveningShow">Evening Showcase</button>
+          <button data-promo="sponsor">Sponsor View</button>
+          <button data-promo="siteplan">Site Plan</button>
+        </div>
+        <p class="hint">Use your browser or OS screen-recorder / screenshot tool for exports (see README).</p>
+      </section>
+
+      <section class="pgroup">
+        <h3>About</h3>
+        <p class="hint">Click any stall, ride or attraction to see planning details. Capacity target: up to 250 visitors (subject to layout &amp; safety assessment). School-operated, vendor and parent stalls.</p>
+      </section>
+
+    </div>
+  </aside>
+
+  <!-- Info card (raycast selection) -->
+  <div id="info-card" class="hidden">
+    <button id="info-close" title="Close">✕</button>
+    <h4 id="info-name"></h4>
+    <div id="info-body"></div>
+  </div>
+
+  <!-- Shot caption for cinematic mode -->
+  <div id="shot-caption" class="hidden"></div>
+
+  <footer id="bottombar">
+    <span id="status-line">Golden hour • Expanded carnival</span>
+    <span class="dim">Provisional unsurveyed layout concept — not a certified installation specification.</span>
+  </footer>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three-addons/"
+  }
+}
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
